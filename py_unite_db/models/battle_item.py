@@ -21,5 +21,5 @@ class BattleItem(Item):
 
     @staticmethod
     def _transform(v: dict[str, Any]) -> dict[str, Any]:
-        v["unlock_level"] = v.pop("level")
+        v["unlock_level"] = v.pop("level", 0)
         return v

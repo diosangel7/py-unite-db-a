@@ -65,7 +65,7 @@ class LevelItemEffect(ItemEffect):
 
 class ScalingItemEffect(ItemEffect):
     percent: bool
-    initial: int
+    initial: float
     start: int
     skip: int
     increment: float
@@ -95,7 +95,12 @@ class HeldItem(Item):
     @staticmethod
     def _transform(v: dict[str, Any]) -> dict[str, Any]:
         v["description"] = v.pop("description1")
-        v["scaling_effects"] = v.pop("stats")
+        if "stats" in v:
+            v["scaling_effects"] = v.pop("stats")
+        else:
+            v["scaling_effects"] = []
+        if "tier" not in v:
+            v["tier"] = "Y"
         # make base for main effect
         v["effect"] = {"label": v.get("description3", "")} | {
             k: v.get(k, "") for k in ("level1", "level10", "level20")
